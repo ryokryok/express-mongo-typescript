@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
-import { router } from "./router";
+import { userRouter } from "./router";
 import dotenv from "dotenv";
 import path from "path";
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
@@ -20,7 +20,7 @@ const writeOption: cors.CorsOptions = {
 app.get("/", cors(readOption), (req: Request, res: Response) => {
   res.json({ message: "Hello World" });
 });
-app.use("/api", router);
+app.use("/api", userRouter);
 
 // execute
 app.listen(PORT, () => {

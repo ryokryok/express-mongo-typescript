@@ -1,6 +1,6 @@
 import express from "express";
 import { Users } from "./MOCK_DATA";
-export const router = express.Router();
+const router = express.Router();
 
 router.use((req, res, next) => {
   console.log(`access from ${req.hostname} Time: ${Date.now()}`);
@@ -15,3 +15,5 @@ router.get("/users/:id", (req, res) => {
   const { id } = req.params;
   res.json(Users.find((user) => user.id === Number(id)));
 });
+
+export { router as userRouter };
