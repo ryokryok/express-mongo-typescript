@@ -1,19 +1,74 @@
-import express from "express";
-import { Users } from "./MOCK_DATA";
+import express, { Request, Response, NextFunction } from "express";
+import { User } from "./database";
 const router = express.Router();
 
-router.use((req, res, next) => {
+router.use((req: Request, res: Response, next: NextFunction) => {
   console.log(`access from ${req.hostname} Time: ${Date.now()}`);
   next();
 });
 
-router.get("/users", (req, res) => {
-  res.json(Users);
+router.get("/users", (req: Request, res: Response) => {
+  User.find((err, result) => {
+    if (err) {
+      res.status(400);
+      res.json({ message: err });
+    } else {
+      res.status(200);
+      res.json({ message: result });
+    }
+  });
 });
 
-router.get("/users/:id", (req, res) => {
+router.get("/users/:id", (req: Request, res: Response) => {
   const { id } = req.params;
-  res.json(Users.find((user) => user.id === Number(id)));
+  User.findById(id, (err, result) => {
+    if (err) {
+      res.status(400);
+      res.json({ message: err });
+    } else {
+      res.status(200);
+      res.json({ message: result });
+    }
+  });
 });
 
-export { router as userRouter };
+router.post("/users/new", (req: Request, res: Response) => {
+  const { name } = req.body;
+  const newUser = new User({ name: name });
+  newUser.save((err, result) => {
+    if (err) {
+      res.json({ message: err });
+    } else {
+      res.json({ message: result });
+    }
+  });
+});
+
+router.put("/users/:id", (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { name } = req.body;
+  User.findByIdAndUpdate(id, { name: name }, { new: true }, (err, result) => {
+    if (err) {
+      res.status(400);
+      res.json({ message: err });
+    } else {
+      res.status(200);
+      res.json({ message: "update user", result: result });
+    }
+  });
+});
+
+router.delete("/users/:id", (req: Request, res: Response) => {
+  const { id } = req.params;
+  User.findByIdAndDelete(id, (err, result) => {
+    if (err) {
+      res.status(400);
+      res.json({ message: err });
+    } else {
+      res.status(200);
+      res.json({ message: "delete user", result: result });
+    }
+  });
+});
+
+export const userRouter = router;
