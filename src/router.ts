@@ -11,10 +11,10 @@ router.get("/users", (req: Request, res: Response) => {
   User.find((err, result) => {
     if (err) {
       res.status(400);
-      res.json({ message: err });
+      res.json(err);
     } else {
       res.status(200);
-      res.json({ message: result });
+      res.json(result);
     }
   });
 });
@@ -24,10 +24,10 @@ router.get("/users/:id", (req: Request, res: Response) => {
   User.findById(id, (err, result) => {
     if (err) {
       res.status(400);
-      res.json({ message: err });
+      res.json(err);
     } else {
       res.status(200);
-      res.json({ message: result });
+      res.json(result);
     }
   });
 });
@@ -37,9 +37,11 @@ router.post("/users/new", (req: Request, res: Response) => {
   const newUser = new User({ name: name });
   newUser.save((err, result) => {
     if (err) {
-      res.json({ message: err });
+      res.status(400);
+      res.json(err);
     } else {
-      res.json({ message: result });
+      res.status(200);
+      res.json(result);
     }
   });
 });
@@ -50,10 +52,10 @@ router.put("/users/:id", (req: Request, res: Response) => {
   User.findByIdAndUpdate(id, { name: name }, { new: true }, (err, result) => {
     if (err) {
       res.status(400);
-      res.json({ message: err });
+      res.json(err);
     } else {
       res.status(200);
-      res.json({ message: "update user", result: result });
+      res.json(result);
     }
   });
 });
@@ -63,10 +65,10 @@ router.delete("/users/:id", (req: Request, res: Response) => {
   User.findByIdAndDelete(id, (err, result) => {
     if (err) {
       res.status(400);
-      res.json({ message: err });
+      res.json(err);
     } else {
       res.status(200);
-      res.json({ message: "delete user", result: result });
+      res.json(result);
     }
   });
 });
