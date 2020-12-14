@@ -1,4 +1,4 @@
-# Express + TypeScript
+# Express + Mongoose + TypeScript
 
 Simple json api server sample with Express, Mongoose and TypeScript.
 
