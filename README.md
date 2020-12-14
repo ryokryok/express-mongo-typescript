@@ -1,6 +1,6 @@
 # Express + TypeScript
 
-Simple json api server sample
+Simple json api server sample with Express, Mongoose and TypeScript.
 
 ## Run
 
@@ -8,10 +8,13 @@ Simple json api server sample
 # rewrite your environment variable
 cp .env.sample .env
 
+# if you use MongoDB with docker, execute it.
+docker-compose up -d
+
 # develop mode
 yarn dev
 
-# production mode (build)
+# production mode (build TypeScript to JavaScript, and launch server)
 yarn start
 ```
 
